@@ -34,7 +34,7 @@ function displayWeather(data) {
 };
 
 function displayError(error) {
-    display.innerHTML = `<p>Error: ${error}</p>`
+    display.innerHTML = `<p>Error: ${error.message}</p>`
 }
 
 fetchData();
