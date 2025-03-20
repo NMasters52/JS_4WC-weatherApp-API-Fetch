@@ -1,19 +1,27 @@
-const apiKey = //your api key here. sign up for one at https://home.openweathermap.org/users/sign_up
+const apiKey = '3c50db9475a0c00809feadc5131454e5';
 const city = 'Jacksonville'; 
 const apiUrl =`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
 
 
 const display = document.getElementById('weatherContainer');
 
-function fetchData() {
-            fetch(apiUrl)
-                .then(res => {if (res.ok) {
-                   return res.json()
-                }else {
-                    display.innerHTML = `<p>Fetch Error: ${res.status}</p>`;
-                }})
-                .then(data => displayWeather(data))
-                .catch(error => displayError(error))
+ async function fetchData() {
+    try {
+        //grabs api, returns promise
+        const response = await fetch(apiUrl);
+        //checks if the fetch was actually successful
+        if (!response.ok) {
+            throw new Error(`HTTPs request failed ${response.status}`);
+        }
+        //if it was we create usable data from what we recieved
+        const data = await response.json();
+        //pass that data as a paramater to our helper function to display the data on screen
+        displayWeather(data);
+    } catch (error) {
+        //throws error if any of the promises above fail
+        displayError(error)
+    }
+           
 };
 
 function displayWeather(data) {
